@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kanban_assignment/core/constants/context_extensions.dart';
 
 import '../../domain/entities/task_entity.dart';
+import '../../l10n/locale_keys.g.dart';
 import '../states/kanban_state_notifier.dart';
 import '../widgets/app_button.dart';
 import '../widgets/app_text_field.dart';
@@ -57,7 +59,7 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
       child: Scaffold(
         backgroundColor: context.theme.colorScheme.surfaceContainerHighest,
         appBar: AppBar(
-          title: Text('Task Details'),
+          title: Text(LocaleKeys.taskDetails.tr()),
           backgroundColor: context.theme.colorScheme.primaryContainer,
         ),
         body: Center(
@@ -74,14 +76,14 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
                 children: [
                   AppTextField(
                     controller: _titleCtrl,
-                    hintText: 'Title',
+                    hintText: LocaleKeys.enterTitle.tr(),
                     // labelText: 'Title',
                   ),
                   const SizedBox(height: 16),
                   AppTextField(
                     controller: _descCtrl,
                     maxLines: 3,
-                    hintText: 'Description',
+                    hintText: LocaleKeys.enterDescription.tr(),
                     // labelText: 'Description',
                   ),
                   const SizedBox(height: 16),
@@ -89,22 +91,25 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
                     initialValue: _status,
                     alignment: AlignmentGeometry.bottomCenter,
 
-                    items: const [
-                      DropdownMenuItem(value: 'todo', child: Text('To Do')),
+                    items: [
+                      DropdownMenuItem(
+                        value: 'todo',
+                        child: Text(LocaleKeys.todo.tr()),
+                      ),
                       DropdownMenuItem(
                         value: 'inProgress',
-                        child: Text('In Progress'),
+                        child: Text(LocaleKeys.inProgress.tr()),
                       ),
                       DropdownMenuItem(
                         value: 'completed',
-                        child: Text('Completed'),
+                        child: Text(LocaleKeys.completed.tr()),
                       ),
                     ],
                     onChanged: (v) => setState(() => _status = v!),
                     decoration: InputDecoration(
                       filled: true,
 
-                      labelText: 'Status',
+                      labelText: LocaleKeys.taskStatus.tr(),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -119,17 +124,19 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
                     ),
                   ),
                   const SizedBox(height: 24),
-                  AppButton(text: 'Update', onPressed: _updateTask),
+                  AppButton(
+                    text: LocaleKeys.updateTask.tr(),
+                    onPressed: _updateTask,
+                  ),
                   const SizedBox(height: 12),
                   AppButton(
-                    text: 'Delete',
+                    text: LocaleKeys.delete.tr(),
                     onPressed: () {
                       context
                           .showAlertDialog(
-                            title: 'Are you sure?',
-                            content:
-                                'This action will delete the task permanently.',
-                            confirmText: 'Delete',
+                            title: LocaleKeys.areYouSure.tr(),
+                            content: LocaleKeys.confirmDelete.tr(),
+                            confirmText: LocaleKeys.delete.tr(),
                             isDestructive: true,
                           )
                           .then((confirmed) {

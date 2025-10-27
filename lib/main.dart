@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,9 @@ void main() async {
 
   await Hive.initFlutter();
   Hive.registerAdapter(TaskModelAdapter());
+  await Hive.openBox<TaskModel>('tasksBox');
+
+  await EasyLocalization.ensureInitialized();
 
   await AppRouter.setupRoutes();
 
@@ -31,7 +35,15 @@ void main() async {
   runApp(
     ProviderScope(
       // observers: [Logger()],
-      child: const MainApp(),
+      child: EasyLocalization(
+        supportedLocales: [
+          Locale('en', 'US'),
+          Locale('hi', 'IN'),
+        ],
+        path: 'assets/translations',
+        fallbackLocale: Locale('en', 'US'),
+        child: const MainApp(),
+      ),
     ),
   );
 }

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -5,6 +6,7 @@ import 'package:kanban_assignment/core/constants/context_extensions.dart';
 
 import '../../../core/utils/validators.dart';
 import '../../core/constants/routes_constants.dart';
+import '../../l10n/locale_keys.g.dart';
 import '../states/auth_state_notifier.dart';
 import '../widgets/app_button.dart';
 import '../widgets/app_text_field.dart';
@@ -85,7 +87,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               _passwordController.text = 'password@123';
                             },
                             child: Text(
-                              "Welcome Back",
+                              LocaleKeys.welcomeBack.tr(),
                               style: context.theme.textTheme.headlineMedium
                                   ?.copyWith(fontWeight: FontWeight.bold),
                               textAlign: TextAlign.center,
@@ -109,7 +111,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                   children: [
                                     AppTextField(
                                       controller: _emailController,
-                                      hintText: "Email",
+                                      hintText: LocaleKeys.email.tr(),
                                       validator: Validators.email,
                                       icon: Icons.email,
                                       maxLines: 1,
@@ -117,14 +119,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                     const SizedBox(height: 16),
                                     AppTextField(
                                       controller: _passwordController,
-                                      hintText: "Password",
+                                      hintText: LocaleKeys.password.tr(),
                                       validator: Validators.password,
                                       obscureText: true,
                                       icon: Icons.lock,
                                       maxLines: 1,
                                     ),
                                     const SizedBox(height: 24),
-                                    AppButton(text: 'Login', onPressed: _login),
+                                    AppButton(
+                                      text: LocaleKeys.login.tr(),
+                                      onPressed: _login,
+                                    ),
                                     const SizedBox(height: 12),
                                     TextButton(
                                       onPressed: () {
@@ -132,8 +137,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                           context,
                                         ).pushNamed(Routes.registerScreen);
                                       },
-                                      child: const Text(
-                                        "Don't have an account? Register",
+                                      child: Text(
+                                        LocaleKeys.dontHaveAnAccount.tr(),
                                       ),
                                     ),
                                   ],

@@ -1,9 +1,9 @@
 import '../../entities/task_entity.dart';
 import '../../repositories/task_repo.dart';
 
-class AddTask {
+class AddTaskUseCase {
   final TaskRepository _taskRepository;
-  AddTask(this._taskRepository);
+  AddTaskUseCase(this._taskRepository);
 
   Future<void> call(String userId, TaskEntity task) {
     return _taskRepository.addTask(userId, task);

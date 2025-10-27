@@ -20,8 +20,13 @@ void main() {
     await Hive.deleteFromDisk();
   });
 
-  setUp(() {
+  setUp(() async {
+    // ✅ Open the box first
+    await Hive.openBox<TaskModel>('tasksBox');
     dataSource = TaskLocalDataSource();
+  });
+  tearDownAll(() async {
+    await tearDownTestHive();
   });
 
   test('addTask() should add a single task', () async {

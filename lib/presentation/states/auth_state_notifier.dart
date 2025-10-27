@@ -3,18 +3,18 @@ import 'package:hooks_riverpod/legacy.dart';
 
 import '../../core/di/injection_container.dart';
 import '../../data/models/user_model.dart';
-import '../../domain/usecases/auth_usecases/get_current_user.dart';
-import '../../domain/usecases/auth_usecases/is_logged_in.dart';
-import '../../domain/usecases/auth_usecases/login_user.dart';
-import '../../domain/usecases/auth_usecases/logout_user.dart';
-import '../../domain/usecases/auth_usecases/register_user.dart';
+import '../../domain/usecases/auth_usecases/get_current_user_usecase.dart';
+import '../../domain/usecases/auth_usecases/is_logged_in_usecase.dart';
+import '../../domain/usecases/auth_usecases/login_user_usecase.dart';
+import '../../domain/usecases/auth_usecases/logout_user_usecase.dart';
+import '../../domain/usecases/auth_usecases/register_user_usecase.dart';
 
 class AuthStateNotifier extends StateNotifier<AsyncValue<UserModel?>> {
-  final GetCurrentUser _getCurrentUser;
-  final IsLoggedIn _isLoggedIn;
-  final LoginUser _loginUser;
-  final RegisterUser _registerUser;
-  final LogoutUser _logoutUser;
+  final GetCurrentUserUseCase _getCurrentUser;
+  final IsLoggedInUseCase _isLoggedIn;
+  final LoginUserUseCase _loginUser;
+  final RegisterUserUseCase _registerUser;
+  final LogoutUserUseCase _logoutUser;
 
   AuthStateNotifier(
     this._getCurrentUser,
@@ -70,11 +70,11 @@ class AuthStateNotifier extends StateNotifier<AsyncValue<UserModel?>> {
 
 final authStateNotifierProvider =
     StateNotifierProvider<AuthStateNotifier, AsyncValue<UserModel?>>((ref) {
-      final getCurrentUser = sl<GetCurrentUser>();
-      final isLoggedIn = sl<IsLoggedIn>();
-      final loginUser = sl<LoginUser>();
-      final registerUser = sl<RegisterUser>();
-      final logoutUser = sl<LogoutUser>();
+      final getCurrentUser = sl<GetCurrentUserUseCase>();
+      final isLoggedIn = sl<IsLoggedInUseCase>();
+      final loginUser = sl<LoginUserUseCase>();
+      final registerUser = sl<RegisterUserUseCase>();
+      final logoutUser = sl<LogoutUserUseCase>();
 
       return AuthStateNotifier(
         getCurrentUser,

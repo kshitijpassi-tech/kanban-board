@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kanban_assignment/core/constants/context_extensions.dart';
 
 import '../../../core/constants/network_helper.dart';
+import '../../l10n/locale_keys.g.dart';
 
 class ConnectivityListener extends ConsumerStatefulWidget {
   final Widget child;
@@ -30,12 +32,12 @@ class _ConnectivityListenerState extends ConsumerState<ConnectivityListener> {
 
         _snackBarController = ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('No internet connection'),
+            content: Text(LocaleKeys.noInternetConnection.tr()),
             backgroundColor: context.theme.colorScheme.error,
             behavior: SnackBarBehavior.floating,
             duration: const Duration(days: 365), // persistent
             action: SnackBarAction(
-              label: 'Retry',
+              label: LocaleKeys.retry.tr(),
               onPressed: () async {
                 final connected = await NetworkHelper().hasInternet();
                 if (connected) {

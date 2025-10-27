@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kanban_assignment/core/constants/context_extensions.dart';
+import 'package:kanban_assignment/l10n/locale_keys.g.dart';
 
 import '../../domain/entities/task_entity.dart';
 import '../states/auth_state_notifier.dart';
@@ -20,15 +22,26 @@ class KanbanScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final taskState = ref.watch(kanbanStateNotifierProvider);
+    final currentLocale = context.locale;
 
     return ConnectivityListener(
       child: Scaffold(
         backgroundColor: context.theme.colorScheme.surfaceContainerHighest,
         appBar: AppBar(
           backgroundColor: context.theme.colorScheme.primaryContainer,
+          leading: IconButton(
+            onPressed: () {
+              if (currentLocale.languageCode == 'en') {
+                context.setLocale(const Locale('hi', 'IN'));
+              } else {
+                context.setLocale(const Locale('en', 'US'));
+              }
+            },
+            icon: Icon(Icons.language),
+          ),
           actions: [
             IconButton(
-              tooltip: 'Logout',
+              tooltip: LocaleKeys.logout.tr(),
               onPressed: () async {
                 await ref.read(authStateNotifierProvider.notifier).logout();
               },
@@ -60,12 +73,14 @@ class KanbanScreen extends ConsumerWidget {
             loading: () => const LoadingIndicator(),
             error: (e, _) => Center(child: Text('Error: ${e.toString()}')),
             data: (tasks) => RefreshIndicator.adaptive(
+              backgroundColor: context.theme.colorScheme.primary,
               onRefresh: () async {
                 ref.invalidate(kanbanStateNotifierProvider);
               },
-              child: tasks.isEmpty
-                  ? const Center(child: Text("No tasks available"))
-                  : _KanbanColumns(tasks: tasks),
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: _KanbanColumns(tasks: tasks),
+              ),
             ),
           ),
         ),
@@ -76,7 +91,7 @@ class KanbanScreen extends ConsumerWidget {
 
 class _KanbanColumns extends ConsumerStatefulWidget {
   final List<TaskEntity> tasks;
-  const _KanbanColumns({super.key, required this.tasks});
+  const _KanbanColumns({required this.tasks});
 
   @override
   ConsumerState<_KanbanColumns> createState() => __KanbanColumnsState();
@@ -147,15 +162,21 @@ class __KanbanColumnsState extends ConsumerState<_KanbanColumns> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildColumn(context, ref, 'To Do', 'todo', todo),
+              _buildColumn(context, ref, LocaleKeys.todo.tr(), 'todo', todo),
               _buildColumn(
                 context,
                 ref,
-                'In Progress',
+                LocaleKeys.inProgress.tr(),
                 'inProgress',
                 inProgress,
               ),
-              _buildColumn(context, ref, 'Completed', 'completed', completed),
+              _buildColumn(
+                context,
+                ref,
+                LocaleKeys.completed.tr(),
+                'completed',
+                completed,
+              ),
             ],
           ),
         ),
@@ -229,7 +250,7 @@ class __KanbanColumnsState extends ConsumerState<_KanbanColumns> {
 }
 
 class _BottomSheetContent extends ConsumerStatefulWidget {
-  const _BottomSheetContent({super.key});
+  const _BottomSheetContent();
 
   @override
   ConsumerState<_BottomSheetContent> createState() =>
@@ -261,25 +282,25 @@ class __BottomSheetContentState extends ConsumerState<_BottomSheetContent> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Add New Task',
+              LocaleKeys.addNewTask.tr(),
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 12),
             AppTextField(
               controller: _titleCtrl,
               // labelText: 'Title',
-              hintText: 'Title',
+              hintText: LocaleKeys.enterTitle.tr(),
             ),
             AppTextField(
               controller: _descCtrl,
               maxLines: 3,
               // labelText: 'Description',
-              hintText: 'Description',
+              hintText: LocaleKeys.enterDescription.tr(),
             ),
             SizedBox(height: 20),
-            AppButton(text: "Add", onPressed: _addTask),
+            AppButton(text: LocaleKeys.addTask.tr(), onPressed: _addTask),
             AppButton(
-              text: "Cancel",
+              text: LocaleKeys.cancel.tr(),
               onPressed: () => context.pop(),
               outlined: true,
             ),

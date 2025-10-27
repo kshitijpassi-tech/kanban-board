@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kanban_assignment/data/models/user_model.dart';
 import 'package:kanban_assignment/domain/repositories/auth_repo.dart';
-import 'package:kanban_assignment/domain/usecases/auth_usecases/get_current_user.dart';
-import 'package:kanban_assignment/domain/usecases/auth_usecases/is_logged_in.dart';
-import 'package:kanban_assignment/domain/usecases/auth_usecases/login_user.dart';
-import 'package:kanban_assignment/domain/usecases/auth_usecases/logout_user.dart';
-import 'package:kanban_assignment/domain/usecases/auth_usecases/register_user.dart';
+import 'package:kanban_assignment/domain/usecases/auth_usecases/get_current_user_usecase.dart';
+import 'package:kanban_assignment/domain/usecases/auth_usecases/is_logged_in_usecase.dart';
+import 'package:kanban_assignment/domain/usecases/auth_usecases/login_user_usecase.dart';
+import 'package:kanban_assignment/domain/usecases/auth_usecases/logout_user_usecase.dart';
+import 'package:kanban_assignment/domain/usecases/auth_usecases/register_user_usecase.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockAuthRepository extends Mock implements AuthRepository {}
@@ -23,7 +23,7 @@ void main() {
 
   group('Auth UseCases', () {
     test('LoginUser calls AuthRepository.login correctly', () async {
-      final useCase = LoginUser(mockRepo);
+      final useCase = LoginUserUseCase(mockRepo);
       when(
         () => mockRepo.login(testEmail, testPassword),
       ).thenAnswer((_) async {});
@@ -34,7 +34,7 @@ void main() {
     });
 
     test('RegisterUser calls AuthRepository.register correctly', () async {
-      final useCase = RegisterUser(mockRepo);
+      final useCase = RegisterUserUseCase(mockRepo);
       when(
         () => mockRepo.register(testEmail, testPassword),
       ).thenAnswer((_) async {});
@@ -45,7 +45,7 @@ void main() {
     });
 
     test('LogoutUser calls AuthRepository.logout correctly', () async {
-      final useCase = LogoutUser(mockRepo);
+      final useCase = LogoutUserUseCase(mockRepo);
       when(() => mockRepo.logout()).thenAnswer((_) async {});
 
       await useCase();
@@ -56,7 +56,7 @@ void main() {
     test(
       'IsLoggedIn calls AuthRepository.isLoggedIn and returns value',
       () async {
-        final useCase = IsLoggedIn(mockRepo);
+        final useCase = IsLoggedInUseCase(mockRepo);
         when(() => mockRepo.isLoggedIn()).thenAnswer((_) async => true);
 
         final result = await useCase();
@@ -69,7 +69,7 @@ void main() {
     test(
       'GetCurrentUser calls AuthRepository.getCurrentUser and returns user',
       () async {
-        final useCase = GetCurrentUser(mockRepo);
+        final useCase = GetCurrentUserUseCase(mockRepo);
         when(() => mockRepo.getCurrentUser()).thenAnswer((_) async => testUser);
 
         final result = await useCase();

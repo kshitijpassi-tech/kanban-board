@@ -1,10 +1,12 @@
 // test/presentation/auth/login_screen_test.dart
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kanban_assignment/core/constants/routes_constants.dart';
+import 'package:kanban_assignment/l10n/locale_keys.g.dart';
 import 'package:kanban_assignment/presentation/screens/login_screen.dart';
 import 'package:kanban_assignment/presentation/states/auth_state_notifier.dart';
 import 'package:kanban_assignment/presentation/widgets/app_button.dart';
@@ -83,16 +85,16 @@ void main() {
     testWidgets('renders fields and buttons', (tester) async {
       await tester.pumpWidget(createTestWidget());
 
-      expect(find.text('Welcome Back'), findsOneWidget);
+      expect(find.text(LocaleKeys.welcomeBack.tr()), findsOneWidget);
       expect(find.byType(AppTextField), findsNWidgets(2));
       expect(find.byType(AppButton), findsOneWidget);
-      expect(find.text("Don't have an account? Register"), findsOneWidget);
+      expect(find.text(LocaleKeys.dontHaveAnAccount.tr()), findsOneWidget);
     });
 
     testWidgets('shows validation errors on empty fields', (tester) async {
       await tester.pumpWidget(createTestWidget());
 
-      await tester.tap(find.text('Login'));
+      await tester.tap(find.text(LocaleKeys.login.tr()));
       await tester.pump();
 
       expect(find.textContaining('required'), findsWidgets);
@@ -107,7 +109,7 @@ void main() {
 
       await tester.enterText(find.byType(AppTextField).first, 'test@a.com');
       await tester.enterText(find.byType(AppTextField).last, 'password123');
-      await tester.tap(find.text('Login'));
+      await tester.tap(find.text(LocaleKeys.login.tr()));
 
       // Wait for async and rebuilds
       await tester.runAsync(() async {
@@ -129,7 +131,7 @@ void main() {
 
       await tester.enterText(find.byType(AppTextField).first, 'test@a.com');
       await tester.enterText(find.byType(AppTextField).last, 'wrongpass');
-      await tester.tap(find.text('Login'));
+      await tester.tap(find.text(LocaleKeys.login.tr()));
       await tester.pumpAndSettle();
 
       expect(find.textContaining('Login failed'), findsOneWidget);
@@ -138,7 +140,7 @@ void main() {
     testWidgets('navigates to Register screen on tap', (tester) async {
       await tester.pumpWidget(createTestWidget());
 
-      await tester.tap(find.text("Don't have an account? Register"));
+      await tester.tap(find.text(LocaleKeys.dontHaveAnAccount.tr()));
       await tester.pumpAndSettle();
 
       expect(navigatedToRegister, isTrue);
@@ -154,7 +156,7 @@ void main() {
 
       await tester.enterText(find.byType(AppTextField).first, 'test@a.com');
       await tester.enterText(find.byType(AppTextField).last, 'password123');
-      await tester.tap(find.text('Login'));
+      await tester.tap(find.text(LocaleKeys.login.tr()));
       await tester.pump();
 
       // Expect loading indicator

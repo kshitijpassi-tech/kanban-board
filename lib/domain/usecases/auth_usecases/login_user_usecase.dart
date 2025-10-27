@@ -1,10 +1,10 @@
 import '../../repositories/auth_repo.dart';
 
-class RegisterUser {
+class LoginUserUseCase {
   final AuthRepository _authRepository;
-  RegisterUser(this._authRepository);
+  LoginUserUseCase(this._authRepository);
 
   Future<void> call(String email, String password) {
-    return _authRepository.register(email, password);
+    return _authRepository.login(email, password);
   }
 }

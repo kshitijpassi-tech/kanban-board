@@ -1,10 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kanban_assignment/domain/entities/task_entity.dart';
 import 'package:kanban_assignment/domain/repositories/task_repo.dart';
-import 'package:kanban_assignment/domain/usecases/task_usecases/add_task.dart';
-import 'package:kanban_assignment/domain/usecases/task_usecases/delete_task.dart';
-import 'package:kanban_assignment/domain/usecases/task_usecases/get_task.dart';
-import 'package:kanban_assignment/domain/usecases/task_usecases/update_task.dart';
+import 'package:kanban_assignment/domain/usecases/task_usecases/add_task_usecase.dart';
+import 'package:kanban_assignment/domain/usecases/task_usecases/delete_task_usecase.dart';
+import 'package:kanban_assignment/domain/usecases/task_usecases/get_task_usecase.dart';
+import 'package:kanban_assignment/domain/usecases/task_usecases/update_task_usecase.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockTaskRepository extends Mock implements TaskRepository {}
@@ -31,7 +31,7 @@ void main() {
 
   group('Task UseCases', () {
     test('AddTask calls TaskRepository.addTask with correct params', () async {
-      final useCase = AddTask(mockRepo);
+      final useCase = AddTaskUseCase(mockRepo);
       when(
         () => mockRepo.addTask(testUserId, testTask),
       ).thenAnswer((_) async {});
@@ -44,7 +44,7 @@ void main() {
     test(
       'UpdateTask calls TaskRepository.updateTask with correct params',
       () async {
-        final useCase = UpdateTask(mockRepo);
+        final useCase = UpdateTaskUseCase(mockRepo);
         when(
           () => mockRepo.updateTask(testUserId, testTask),
         ).thenAnswer((_) async {});
@@ -58,7 +58,7 @@ void main() {
     test(
       'DeleteTask calls TaskRepository.deleteTask with correct params',
       () async {
-        final useCase = DeleteTask(mockRepo);
+        final useCase = DeleteTaskUseCase(mockRepo);
         when(
           () => mockRepo.deleteTask(testUserId, testTaskId),
         ).thenAnswer((_) async {});
@@ -70,7 +70,7 @@ void main() {
     );
 
     test('GetTask calls TaskRepository.getTasks and returns stream', () async {
-      final useCase = GetTask(mockRepo);
+      final useCase = GetTaskUseCase(mockRepo);
       final tasksStream = Stream.value([testTask]);
       when(() => mockRepo.getTasks(testUserId)).thenAnswer((_) => tasksStream);
 
@@ -83,7 +83,7 @@ void main() {
 
   group('Task UseCases Error Propagation', () {
     test('AddTask rethrows exceptions from repository', () async {
-      final useCase = AddTask(mockRepo);
+      final useCase = AddTaskUseCase(mockRepo);
       when(
         () => mockRepo.addTask(any(), any()),
       ).thenThrow(Exception('Add failed'));
@@ -92,7 +92,7 @@ void main() {
     });
 
     test('UpdateTask rethrows exceptions from repository', () async {
-      final useCase = UpdateTask(mockRepo);
+      final useCase = UpdateTaskUseCase(mockRepo);
       when(
         () => mockRepo.updateTask(any(), any()),
       ).thenThrow(Exception('Update failed'));
@@ -101,7 +101,7 @@ void main() {
     });
 
     test('DeleteTask rethrows exceptions from repository', () async {
-      final useCase = DeleteTask(mockRepo);
+      final useCase = DeleteTaskUseCase(mockRepo);
       when(
         () => mockRepo.deleteTask(any(), any()),
       ).thenThrow(Exception('Delete failed'));

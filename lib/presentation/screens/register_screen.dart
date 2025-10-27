@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -5,6 +6,7 @@ import 'package:kanban_assignment/core/constants/context_extensions.dart';
 
 import '../../../core/utils/validators.dart';
 import '../../core/constants/routes_constants.dart';
+import '../../l10n/locale_keys.g.dart';
 import '../states/auth_state_notifier.dart';
 import '../widgets/app_button.dart';
 import '../widgets/app_text_field.dart';
@@ -94,7 +96,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "Create Account",
+                            LocaleKeys.createAccount.tr(),
                             style: context.theme.textTheme.headlineMedium
                                 ?.copyWith(fontWeight: FontWeight.bold),
                           ),
@@ -115,14 +117,14 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                   children: [
                                     AppTextField(
                                       controller: _emailController,
-                                      hintText: "Email",
+                                      hintText: LocaleKeys.email.tr(),
                                       validator: Validators.email,
                                       icon: Icons.email,
                                       maxLines: 1,
                                     ),
                                     AppTextField(
                                       controller: _passwordController,
-                                      hintText: "Password",
+                                      hintText: LocaleKeys.password.tr(),
                                       validator: Validators.password,
                                       maxLines: 1,
                                       obscureText: _obscurePassword,
@@ -130,7 +132,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                     ),
                                     AppTextField(
                                       controller: _confirmController,
-                                      hintText: "Confirm Password",
+                                      hintText: LocaleKeys.confirmPassword.tr(),
                                       validator: _confirmPasswordValidator,
                                       maxLines: 1,
                                       obscureText: _obscureConfirm,
@@ -138,7 +140,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                     ),
                                     const SizedBox(height: 8),
                                     AppButton(
-                                      text: "Register",
+                                      text: LocaleKeys.register.tr(),
                                       onPressed: _register,
                                     ),
                                     TextButton(
@@ -147,8 +149,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                           context,
                                         ).pushNamed(Routes.loginScreen);
                                       },
-                                      child: const Text(
-                                        "Already have an account? Login",
+                                      child: Text(
+                                        LocaleKeys.alreadyHaveAnAccount.tr(),
                                       ),
                                     ),
                                   ],

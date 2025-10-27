@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import 'core/routes/app_router.dart';
@@ -19,6 +20,9 @@ class MainApp extends StatelessWidget {
       darkTheme: theme.dark(),
       themeMode: ThemeMode.system,
       routerConfig: AppRouter.router,
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       // builder: (context, child) {
       //   return InternetWrapper(child: child ?? const SizedBox());
       // },
