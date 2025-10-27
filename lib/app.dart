@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'core/themes/app_colors.dart';
 import 'core/routes/app_router.dart';
+import 'core/themes/app_colors.dart';
 import 'core/themes/text_theme.dart';
-import 'presentation/screens/internet_wrapper.dart';
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});

@@ -7,7 +7,6 @@ import 'package:go_router/go_router.dart';
 import '../../domain/entities/task_entity.dart';
 import '../../presentation/screens/kanban_layout.dart';
 import '../../presentation/screens/login_screen.dart';
-import '../../presentation/screens/connectivity_listener.dart';
 import '../../presentation/screens/register_screen.dart';
 import '../../presentation/screens/task_details_screen.dart';
 import '../constants/routes_constants.dart';

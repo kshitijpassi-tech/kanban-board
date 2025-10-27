@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kanban_assignment/core/constants/context_extensions.dart';
-import 'package:kanban_assignment/presentation/widgets/app_text_field.dart';
 
 import '../../domain/entities/task_entity.dart';
 import '../states/kanban_state_notifier.dart';
 import '../widgets/app_button.dart';
+import '../widgets/app_text_field.dart';
 
 class TaskDetailScreen extends ConsumerStatefulWidget {
   final TaskEntity task;
@@ -35,12 +35,16 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
       description: _descCtrl.text,
       status: _status,
     );
-    await ref.read(kanbanProvider.notifier).moveTask(updated, _status);
+    await ref
+        .read(kanbanStateNotifierProvider.notifier)
+        .moveTask(updated, _status);
     if (mounted) GoRouter.of(context).pop();
   }
 
   void _deleteTask() async {
-    await ref.read(kanbanProvider.notifier).removeTask(widget.task);
+    await ref
+        .read(kanbanStateNotifierProvider.notifier)
+        .removeTask(widget.task);
     if (mounted) GoRouter.of(context).pop();
   }
 

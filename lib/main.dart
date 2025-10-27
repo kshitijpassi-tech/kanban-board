@@ -28,7 +28,12 @@ void main() async {
     HttpOverrides.global = CustomHttpOverrides();
   }
 
-  runApp(ProviderScope(child: const MainApp()));
+  runApp(
+    ProviderScope(
+      // observers: [Logger()],
+      child: const MainApp(),
+    ),
+  );
 }
 
 class CustomHttpOverrides extends HttpOverrides {
@@ -39,3 +44,20 @@ class CustomHttpOverrides extends HttpOverrides {
           (X509Certificate cert, String host, int port) => true;
   }
 }
+
+// final class Logger extends ProviderObserver {
+//   @override
+//   void didUpdateProvider(
+//     ProviderObserverContext context,
+//     Object? previousValue,
+//     Object? newValue,
+//   ) {
+//     debugPrint('''
+// ------------------------------------------------------------
+// ${context.provider.name ?? context.provider.runtimeType}
+// ------------------------------------------------------------
+//   previousValue: $previousValue
+//   newValue: $newValue
+// ------------------------------------------------------------''');
+//   }
+// }

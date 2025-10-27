@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kanban_assignment/core/constants/context_extensions.dart';
-import 'package:kanban_assignment/presentation/widgets/app_text_field.dart';
 
 import '../../domain/entities/task_entity.dart';
 import '../states/auth_state_notifier.dart';
 import '../states/kanban_state_notifier.dart';
 import '../widgets/app_button.dart';
+import '../widgets/app_text_field.dart';
 import '../widgets/loading_indicator.dart';
 import '../widgets/task_card.dart';
 import 'connectivity_listener.dart';
@@ -19,9 +19,7 @@ class KanbanScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final taskState = ref.watch(kanbanProvider);
-    final size = MediaQuery.of(context).size;
-    final isTablet = size.width > 600;
+    final taskState = ref.watch(kanbanStateNotifierProvider);
 
     return ConnectivityListener(
       child: Scaffold(
@@ -45,12 +43,10 @@ class KanbanScreen extends ConsumerWidget {
           backgroundColor: context.theme.colorScheme.primaryContainer,
           onPressed: () async {
             showModalBottomSheet(
-              constraints: BoxConstraints(
-                maxWidth: double.infinity, // limit width on tablets
-              ),
+              constraints: BoxConstraints(maxWidth: double.infinity),
               context: context,
               builder: (context) {
-                return const BottomSheetContent();
+                return const _BottomSheetContent();
               },
             );
           },
@@ -65,11 +61,11 @@ class KanbanScreen extends ConsumerWidget {
             error: (e, _) => Center(child: Text('Error: ${e.toString()}')),
             data: (tasks) => RefreshIndicator.adaptive(
               onRefresh: () async {
-                ref.invalidate(kanbanProvider);
+                ref.invalidate(kanbanStateNotifierProvider);
               },
               child: tasks.isEmpty
                   ? const Center(child: Text("No tasks available"))
-                  : KanbanColumns(tasks: tasks),
+                  : _KanbanColumns(tasks: tasks),
             ),
           ),
         ),
@@ -78,15 +74,15 @@ class KanbanScreen extends ConsumerWidget {
   }
 }
 
-class KanbanColumns extends ConsumerStatefulWidget {
+class _KanbanColumns extends ConsumerStatefulWidget {
   final List<TaskEntity> tasks;
-  const KanbanColumns({super.key, required this.tasks});
+  const _KanbanColumns({super.key, required this.tasks});
 
   @override
-  ConsumerState<KanbanColumns> createState() => _KanbanColumnsState();
+  ConsumerState<_KanbanColumns> createState() => __KanbanColumnsState();
 }
 
-class _KanbanColumnsState extends ConsumerState<KanbanColumns> {
+class __KanbanColumnsState extends ConsumerState<_KanbanColumns> {
   final ScrollController _scrollController = ScrollController();
   Timer? _autoScrollTimer;
 
@@ -181,7 +177,10 @@ class _KanbanColumnsState extends ConsumerState<KanbanColumns> {
       margin: const EdgeInsets.all(8),
       child: DragTarget<TaskEntity>(
         onAcceptWithDetails: (details) {
-          ref.read(kanbanProvider.notifier).moveTask.call(details.data, status);
+          ref
+              .read(kanbanStateNotifierProvider.notifier)
+              .moveTask
+              .call(details.data, status);
         },
         builder: (context, candidateData, rejectedData) {
           return Card(
@@ -229,14 +228,15 @@ class _KanbanColumnsState extends ConsumerState<KanbanColumns> {
   }
 }
 
-class BottomSheetContent extends ConsumerStatefulWidget {
-  const BottomSheetContent({super.key});
+class _BottomSheetContent extends ConsumerStatefulWidget {
+  const _BottomSheetContent({super.key});
 
   @override
-  ConsumerState<BottomSheetContent> createState() => _BottomSheetContentState();
+  ConsumerState<_BottomSheetContent> createState() =>
+      __BottomSheetContentState();
 }
 
-class _BottomSheetContentState extends ConsumerState<BottomSheetContent> {
+class __BottomSheetContentState extends ConsumerState<_BottomSheetContent> {
   final _titleCtrl = TextEditingController();
   final _descCtrl = TextEditingController();
 
@@ -247,7 +247,7 @@ class _BottomSheetContentState extends ConsumerState<BottomSheetContent> {
       description: _descCtrl.text,
       status: 'todo',
     );
-    await ref.read(kanbanProvider.notifier).createTask(task);
+    await ref.read(kanbanStateNotifierProvider.notifier).createTask(task);
     if (mounted) GoRouter.of(context).pop();
   }
 

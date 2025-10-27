@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
 class NetworkHelper {
-  static Future<bool> hasInternet() async {
+  Future<bool> hasInternet() async {
     try {
       final result = await InternetAddress.lookup('google.com');
       return result.isNotEmpty && result[0].rawAddress.isNotEmpty;
@@ -12,7 +12,7 @@ class NetworkHelper {
     }
   }
 
-  static Stream<bool> get internetStatusStream async* {
+  Stream<bool> get internetStatusStream async* {
     yield await hasInternet();
     await for (final _ in Stream.periodic(const Duration(seconds: 3))) {
       yield await hasInternet();

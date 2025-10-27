@@ -1,5 +1,4 @@
 import '../../../data/models/user_model.dart';
-import '../../entities/user_entity.dart';
 import '../../repositories/auth_repo.dart';
 
 class GetCurrentUser {

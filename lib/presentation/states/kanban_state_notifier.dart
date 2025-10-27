@@ -3,22 +3,20 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:hooks_riverpod/legacy.dart';
 
 import '../../core/di/injection_container.dart';
-
 import '../../domain/entities/task_entity.dart';
-
 import '../../domain/usecases/task_usecases/add_task.dart';
 import '../../domain/usecases/task_usecases/delete_task.dart';
 import '../../domain/usecases/task_usecases/get_task.dart';
 import '../../domain/usecases/task_usecases/update_task.dart';
 
-class KanbanNotifier extends StateNotifier<AsyncValue<List<TaskEntity>>> {
+class KanbanStateNotifier extends StateNotifier<AsyncValue<List<TaskEntity>>> {
   final GetTask getTasks;
   final AddTask addTask;
   final UpdateTask updateTask;
   final DeleteTask deleteTask;
   final String userId;
 
-  KanbanNotifier({
+  KanbanStateNotifier({
     required this.getTasks,
     required this.addTask,
     required this.updateTask,
@@ -56,10 +54,13 @@ class KanbanNotifier extends StateNotifier<AsyncValue<List<TaskEntity>>> {
   }
 }
 
-final kanbanProvider =
-    StateNotifierProvider<KanbanNotifier, AsyncValue<List<TaskEntity>>>((ref) {
+final kanbanStateNotifierProvider =
+    StateNotifierProvider<KanbanStateNotifier, AsyncValue<List<TaskEntity>>>((
+      ref,
+    ) {
       final User? user = FirebaseAuth.instance.currentUser;
-      return KanbanNotifier(
+      ref.keepAlive();
+      return KanbanStateNotifier(
         getTasks: sl<GetTask>(),
         addTask: sl<AddTask>(),
         updateTask: sl<UpdateTask>(),
@@ -67,3 +68,7 @@ final kanbanProvider =
         userId: user!.uid,
       );
     });
+
+final currentTaskEntity = Provider<TaskEntity>(
+  (_) => throw UnimplementedError(),
+);

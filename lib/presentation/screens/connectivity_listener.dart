@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kanban_assignment/core/constants/context_extensions.dart';
 
@@ -22,7 +21,7 @@ class _ConnectivityListenerState extends ConsumerState<ConnectivityListener> {
   @override
   void initState() {
     super.initState();
-    NetworkHelper.internetStatusStream.listen((hasInternet) {
+    NetworkHelper().internetStatusStream.listen((hasInternet) {
       if (!hasInternet && !_isOffline) {
         _isOffline = true;
 
@@ -38,7 +37,7 @@ class _ConnectivityListenerState extends ConsumerState<ConnectivityListener> {
             action: SnackBarAction(
               label: 'Retry',
               onPressed: () async {
-                final connected = await NetworkHelper.hasInternet();
+                final connected = await NetworkHelper().hasInternet();
                 if (connected) {
                   _snackBarController?.close();
                 }

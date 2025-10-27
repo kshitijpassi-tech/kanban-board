@@ -1,13 +1,13 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:hooks_riverpod/legacy.dart';
-import 'package:kanban_assignment/core/di/injection_container.dart';
-import 'package:kanban_assignment/domain/usecases/auth_usecases/get_current_user.dart';
-import 'package:kanban_assignment/domain/usecases/auth_usecases/is_logged_in.dart';
-import 'package:kanban_assignment/domain/usecases/auth_usecases/login_user.dart';
-import 'package:kanban_assignment/domain/usecases/auth_usecases/logout_user.dart';
-import 'package:kanban_assignment/domain/usecases/auth_usecases/register_user.dart';
 
+import '../../core/di/injection_container.dart';
 import '../../data/models/user_model.dart';
+import '../../domain/usecases/auth_usecases/get_current_user.dart';
+import '../../domain/usecases/auth_usecases/is_logged_in.dart';
+import '../../domain/usecases/auth_usecases/login_user.dart';
+import '../../domain/usecases/auth_usecases/logout_user.dart';
+import '../../domain/usecases/auth_usecases/register_user.dart';
 
 class AuthStateNotifier extends StateNotifier<AsyncValue<UserModel?>> {
   final GetCurrentUser _getCurrentUser;

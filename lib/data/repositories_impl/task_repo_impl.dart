@@ -1,4 +1,3 @@
-import 'package:go_router/go_router.dart';
 import 'package:kanban_assignment/data/data_sources/local_data_sources/task_local_data_source.dart';
 
 import '../../core/constants/network_helper.dart';
@@ -11,12 +10,19 @@ import '../models/task_model.dart';
 class TaskRepositoryImpl implements TaskRepository {
   final TaskRemoteDataSource _taskRemoteDataSource;
   final TaskLocalDataSource _taskLocalDataSource;
-  TaskRepositoryImpl(this._taskRemoteDataSource, this._taskLocalDataSource);
+  final NetworkHelper _networkHelper;
+
+  TaskRepositoryImpl(
+    this._taskRemoteDataSource,
+    this._taskLocalDataSource,
+    this._networkHelper,
+  );
 
   @override
   Stream<List<TaskEntity>> getTasks(String userId) async* {
     try {
-      final hasInternet = await NetworkHelper.hasInternet();
+      // final hasInternet = await NetworkHelper.hasInternet();
+      final hasInternet = await _networkHelper.hasInternet();
       if (!hasInternet) {
         // offline - return cached tasks
         final cachedTasks = await _taskLocalDataSource.getCachedTasks();
