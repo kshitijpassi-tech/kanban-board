@@ -1,10 +1,8 @@
 import 'dart:async';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:hooks_riverpod/legacy.dart';
 
-import '../../core/di/injection_container.dart';
 import '../../domain/entities/task_entity.dart';
 import '../../domain/usecases/task_usecases/add_task_usecase.dart';
 import '../../domain/usecases/task_usecases/delete_task_usecase.dart';
@@ -62,21 +60,3 @@ class KanbanStateNotifier extends StateNotifier<AsyncValue<List<TaskEntity>>> {
     await deleteTask.call(userId, task.id);
   }
 }
-
-final kanbanStateNotifierProvider =
-    StateNotifierProvider.autoDispose<
-      KanbanStateNotifier,
-      AsyncValue<List<TaskEntity>>
-    >((
-      ref,
-    ) {
-      final User? user = FirebaseAuth.instance.currentUser;
-      ref.keepAlive();
-      return KanbanStateNotifier(
-        getTasks: sl<GetTaskUseCase>(),
-        addTask: sl<AddTaskUseCase>(),
-        updateTask: sl<UpdateTaskUseCase>(),
-        deleteTask: sl<DeleteTaskUseCase>(),
-        userId: user?.uid ?? "",
-      );
-    });

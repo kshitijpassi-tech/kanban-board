@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kanban_assignment/core/constants/network_helper.dart';
+import 'package:kanban_assignment/core/helpers/network_helper.dart';
 import 'package:kanban_assignment/data/data_sources/local_data_sources/task_local_data_source.dart';
 import 'package:kanban_assignment/data/data_sources/remote_data_sources/task_data_source.dart';
 import 'package:kanban_assignment/data/models/task_model.dart';

@@ -1,7 +1,7 @@
 import 'package:kanban_assignment/data/data_sources/local_data_sources/task_local_data_source.dart';
 
-import '../../core/constants/network_helper.dart';
 import '../../core/errors/exceptions.dart';
+import '../../core/helpers/network_helper.dart';
 import '../../domain/entities/task_entity.dart';
 import '../../domain/repositories/task_repo.dart';
 import '../data_sources/remote_data_sources/task_data_source.dart';

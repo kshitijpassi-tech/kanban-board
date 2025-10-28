@@ -4,9 +4,9 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kanban_assignment/core/constants/context_extensions.dart';
 
+import '../../core/l10n/locale_keys.g.dart';
 import '../../domain/entities/task_entity.dart';
-import '../../l10n/locale_keys.g.dart';
-import '../states/kanban_state_notifier.dart';
+import '../providers/presentation_providers.dart';
 import '../widgets/app_button.dart';
 import '../widgets/app_text_field.dart';
 

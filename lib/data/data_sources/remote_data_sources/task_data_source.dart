@@ -1,12 +1,12 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../../core/helpers/firebase_helper.dart';
 import '../../models/task_model.dart';
 
 class TaskRemoteDataSource {
-  final FirebaseFirestore _firestore;
-  TaskRemoteDataSource(this._firestore);
+  final FirebaseHelper _firebaseHelper;
+  TaskRemoteDataSource(this._firebaseHelper);
 
   Stream<List<TaskModel>> getTasks(String userId) {
-    return _firestore
+    return _firebaseHelper.firestore
         .collection('users')
         .doc(userId)
         .collection('tasks')
@@ -16,7 +16,7 @@ class TaskRemoteDataSource {
   }
 
   Future<void> addTask(String userId, TaskModel task) async {
-    await _firestore
+    await _firebaseHelper.firestore
         .collection('users')
         .doc(userId)
         .collection('tasks')
@@ -24,7 +24,7 @@ class TaskRemoteDataSource {
   }
 
   Future<void> updateTask(String userId, TaskModel task) async {
-    await _firestore
+    await _firebaseHelper.firestore
         .collection('users')
         .doc(userId)
         .collection('tasks')
@@ -33,7 +33,7 @@ class TaskRemoteDataSource {
   }
 
   Future<void> deleteTask(String userId, String taskId) async {
-    await _firestore
+    await _firebaseHelper.firestore
         .collection('users')
         .doc(userId)
         .collection('tasks')

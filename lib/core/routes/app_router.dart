@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -10,6 +9,7 @@ import '../../presentation/screens/login_screen.dart';
 import '../../presentation/screens/register_screen.dart';
 import '../../presentation/screens/task_details_screen.dart';
 import '../constants/routes_constants.dart';
+import '../helpers/firebase_helper.dart';
 
 class AppRouter {
   AppRouter._();
@@ -20,7 +20,8 @@ class AppRouter {
   // static final RouteObserverService _routeObserver = RouteObserverService();
 
   static Future<void> setupRoutes() async {
-    final auth = FirebaseAuth.instance;
+    final firebaseHelper = FirebaseHelper();
+    final auth = firebaseHelper.auth;
 
     _router = GoRouter(
       debugLogDiagnostics: false,

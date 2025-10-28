@@ -1,22 +1,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../../../core/helpers/firebase_helper.dart';
 import '../../models/user_model.dart';
 
 class AuthDataSource {
-  final FirebaseAuth _auth;
-  final FirebaseFirestore _firestore;
+  // final FirebaseAuth _auth;
+  // final FirebaseFirestore _firestore;
+  final FirebaseHelper _firebaseHelper;
+  FirebaseAuth? get _auth => _firebaseHelper.auth;
+  FirebaseFirestore get _firestore => _firebaseHelper.firestore;
 
-  AuthDataSource(this._firestore, this._auth);
+  AuthDataSource(this._firebaseHelper);
 
   Future<void> register(String email, String password) async {
-    final userCredential = await _auth.createUserWithEmailAndPassword(
+    final userCredential = await _auth?.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
 
     final userModel = UserModel(
-      userId: userCredential.user!.uid,
+      userId: userCredential!.user!.uid,
       userEmail: email,
     );
 
@@ -28,18 +32,18 @@ class AuthDataSource {
   }
 
   Future<void> login(String email, String password) async {
-    await _auth.signInWithEmailAndPassword(email: email, password: password);
+    await _auth?.signInWithEmailAndPassword(email: email, password: password);
   }
 
-  Future<void> logout() async => _auth.signOut();
+  Future<void> logout() async => _auth?.signOut();
 
   Future<bool> isSignedIn() async {
-    final currentUser = _auth.currentUser;
+    final currentUser = _auth?.currentUser;
     return currentUser != null;
   }
 
   Future<UserModel?> getCurrentUser() async {
-    final currentUser = _auth.currentUser;
+    final currentUser = _auth?.currentUser;
     if (currentUser != null) {
       final userDoc = await _firestore
           .collection('users')

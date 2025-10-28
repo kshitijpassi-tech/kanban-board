@@ -1,7 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:hooks_riverpod/legacy.dart';
 
-import '../../core/di/injection_container.dart';
 import '../../data/models/user_model.dart';
 import '../../domain/usecases/auth_usecases/get_current_user_usecase.dart';
 import '../../domain/usecases/auth_usecases/is_logged_in_usecase.dart';
@@ -67,20 +66,3 @@ class AuthStateNotifier extends StateNotifier<AsyncValue<UserModel?>> {
     return await _isLoggedIn.call();
   }
 }
-
-final authStateNotifierProvider =
-    StateNotifierProvider<AuthStateNotifier, AsyncValue<UserModel?>>((ref) {
-      final getCurrentUser = sl<GetCurrentUserUseCase>();
-      final isLoggedIn = sl<IsLoggedInUseCase>();
-      final loginUser = sl<LoginUserUseCase>();
-      final registerUser = sl<RegisterUserUseCase>();
-      final logoutUser = sl<LogoutUserUseCase>();
-
-      return AuthStateNotifier(
-        getCurrentUser,
-        isLoggedIn,
-        loginUser,
-        registerUser,
-        logoutUser,
-      );
-    });

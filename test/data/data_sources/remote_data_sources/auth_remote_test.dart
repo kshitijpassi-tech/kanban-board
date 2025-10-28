@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart' as fs;
 import 'package:firebase_auth/firebase_auth.dart' as fb;
 import 'package:flutter_test/flutter_test.dart';
+import 'package:kanban_assignment/core/helpers/firebase_helper.dart';
 import 'package:kanban_assignment/data/data_sources/remote_data_sources/auth_data_source.dart';
 import 'package:kanban_assignment/data/models/user_model.dart';
 import 'package:mocktail/mocktail.dart';
@@ -26,11 +27,17 @@ void main() {
   late MockFirebaseAuth mockFirebaseAuth;
   late MockFirestore mockFirestore;
   late AuthDataSource dataSource;
+  late FirebaseHelper firebaseHelper;
 
   setUp(() {
     mockFirebaseAuth = MockFirebaseAuth();
     mockFirestore = MockFirestore();
-    dataSource = AuthDataSource(mockFirestore, mockFirebaseAuth);
+    firebaseHelper = FirebaseHelper(
+      auth: mockFirebaseAuth,
+      firestore: mockFirestore,
+    );
+
+    dataSource = AuthDataSource(firebaseHelper);
   });
 
   test('should return User when Firebase login succeeds', () async {

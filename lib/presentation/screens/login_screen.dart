@@ -6,8 +6,8 @@ import 'package:kanban_assignment/core/constants/context_extensions.dart';
 
 import '../../../core/utils/validators.dart';
 import '../../core/constants/routes_constants.dart';
-import '../../l10n/locale_keys.g.dart';
-import '../states/auth_state_notifier.dart';
+import '../../core/l10n/locale_keys.g.dart';
+import '../providers/presentation_providers.dart';
 import '../widgets/app_button.dart';
 import '../widgets/app_text_field.dart';
 import '../widgets/loading_indicator.dart';
