@@ -18,8 +18,12 @@ class MockDocumentReference extends Mock
 class MockQuerySnapshot extends Mock
     implements QuerySnapshot<Map<String, dynamic>> {}
 
+class MockDocumentSnapshot extends Mock implements DocumentSnapshot {}
+
 class MockQueryDocumentSnapshot extends Mock
     implements QueryDocumentSnapshot<Map<String, dynamic>> {}
+
+class MockQuery extends Mock implements Query<Map<String, dynamic>> {}
 
 void main() {
   late TaskRemoteDataSource dataSource;
@@ -30,6 +34,8 @@ void main() {
   late MockQueryDocumentSnapshot mockQueryDoc;
   late MockFirebaseAuth mockFirebaseAuth;
   late FirebaseHelper firebaseHelper;
+  late MockDocumentSnapshot mockDocSnapshot;
+  late MockQuery mockQuery;
 
   const testUserId = 'test-user-id';
   final testTask = TaskModel(
@@ -50,6 +56,8 @@ void main() {
     mockQuerySnapshot = MockQuerySnapshot();
     mockQueryDoc = MockQueryDocumentSnapshot();
     mockFirebaseAuth = MockFirebaseAuth();
+    mockDocSnapshot = MockDocumentSnapshot();
+    mockQuery = MockQuery();
 
     // inject mock Firestore
     firebaseHelper = FirebaseHelper(
@@ -67,16 +75,19 @@ void main() {
       when(() => mockCollectionRef.doc(testUserId)).thenReturn(mockDocRef);
       when(() => mockDocRef.collection('tasks')).thenReturn(mockCollectionRef);
 
+      when(() => mockCollectionRef.orderBy('title')).thenReturn(mockQuery);
+      when(
+        () => mockQuery.snapshots(),
+      ).thenAnswer((_) => Stream.value(mockQuerySnapshot));
+
       when(() => mockQueryDoc.id).thenReturn('t1');
       when(() => mockQueryDoc.data()).thenReturn(testTask.toFirestore());
       when(() => mockQuerySnapshot.docs).thenReturn([mockQueryDoc]);
 
-      when(
-        () => mockCollectionRef.snapshots(),
-      ).thenAnswer((_) => Stream.value(mockQuerySnapshot));
-
+      // Act
       final resultStream = dataSource.getTasks(testUserId);
 
+      // Assert
       await expectLater(
         resultStream,
         emits(
@@ -87,7 +98,10 @@ void main() {
       );
 
       verify(() => mockFirestore.collection('users')).called(1);
-      verify(() => mockCollectionRef.snapshots()).called(1);
+      verify(() => mockCollectionRef.doc(testUserId)).called(1);
+      verify(() => mockDocRef.collection('tasks')).called(1);
+      verify(() => mockCollectionRef.orderBy('title')).called(1);
+      verify(() => mockQuery.snapshots()).called(1);
     });
 
     test('addTask calls Firestore with correct data', () async {

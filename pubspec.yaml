@@ -26,7 +26,6 @@ dependencies:
   path_provider: ^2.1.5
   connectivity_plus: ^7.0.0
   mocktail: ^1.0.4
-  fake_cloud_firestore: ^4.0.0
   hive_test: ^1.0.1
   easy_localization: ^3.0.8
   

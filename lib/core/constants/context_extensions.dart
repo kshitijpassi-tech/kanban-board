@@ -4,21 +4,21 @@ import 'package:go_router/go_router.dart';
 /// Extension methods on [BuildContext] for easier and cleaner access
 /// to frequently used features in a scalable Flutter app.
 extension ContextExtensions on BuildContext {
-  /// MediaQuery
-  Size get screenSize => MediaQuery.of(this).size;
-  double get screenWidth => MediaQuery.of(this).size.width;
-  double get screenHeight => MediaQuery.of(this).size.height;
-  double get viewPaddingTop => MediaQuery.of(this).viewPadding.top;
-  double get viewPaddingBottom => MediaQuery.of(this).viewPadding.bottom;
-  double get viewInsetsBottom => MediaQuery.of(this).viewInsets.bottom;
-  Orientation get orientation => MediaQuery.of(this).orientation;
+  // /// MediaQuery
+  // Size get screenSize => MediaQuery.of(this).size;
+  // double get screenWidth => MediaQuery.of(this).size.width;
+  // double get screenHeight => MediaQuery.of(this).size.height;
+  // double get viewPaddingTop => MediaQuery.of(this).viewPadding.top;
+  // double get viewPaddingBottom => MediaQuery.of(this).viewPadding.bottom;
+  // double get viewInsetsBottom => MediaQuery.of(this).viewInsets.bottom;
+  // Orientation get orientation => MediaQuery.of(this).orientation;
 
   /// Theme & Colors
   ThemeData get theme => Theme.of(this);
-  TextTheme get textTheme => Theme.of(this).textTheme;
-  ColorScheme get colorScheme => Theme.of(this).colorScheme;
-  Color get primaryColor => Theme.of(this).primaryColor;
-  Color get scaffoldBackgroundColor => Theme.of(this).scaffoldBackgroundColor;
+  // TextTheme get textTheme => Theme.of(this).textTheme;
+  // ColorScheme get colorScheme => Theme.of(this).colorScheme;
+  // Color get primaryColor => Theme.of(this).primaryColor;
+  // Color get scaffoldBackgroundColor => Theme.of(this).scaffoldBackgroundColor;
 
   // /// Navigator
   // void pop<T extends Object?>([T? result]) => Navigator.of(this).pop(result);
@@ -49,16 +49,16 @@ extension ContextExtensions on BuildContext {
   }
 
   /// Dialog
-  Future<T?> showDialogBox<T>({
-    required WidgetBuilder builder,
-    bool barrierDismissible = true,
-  }) {
-    return showDialog<T>(
-      context: this,
-      builder: builder,
-      barrierDismissible: barrierDismissible,
-    );
-  }
+  // Future<T?> showDialogBox<T>({
+  //   required WidgetBuilder builder,
+  //   bool barrierDismissible = true,
+  // }) {
+  //   return showDialog<T>(
+  //     context: this,
+  //     builder: builder,
+  //     barrierDismissible: barrierDismissible,
+  //   );
+  // }
 
   Future<T?> showAlertDialog<T>({
     required String title,
@@ -95,6 +95,6 @@ extension ContextExtensions on BuildContext {
   }
 
   /// Scaffold
-  ScaffoldState get scaffold => Scaffold.of(this);
-  ScaffoldMessengerState get scaffoldMessenger => ScaffoldMessenger.of(this);
+  // ScaffoldState get scaffold => Scaffold.of(this);
+  // ScaffoldMessengerState get scaffoldMessenger => ScaffoldMessenger.of(this);
 }
