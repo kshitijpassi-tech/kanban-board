@@ -1,8 +1,10 @@
-class UserEntity {
+import 'package:equatable/equatable.dart';
+
+class UserEntity extends Equatable {
   final String userId;
   final String userEmail;
 
-  UserEntity({required this.userId, required this.userEmail});
+  const UserEntity({required this.userId, required this.userEmail});
 
   UserEntity copyWith({String? userId, String? userEmail}) {
     return UserEntity(
@@ -10,4 +12,8 @@ class UserEntity {
       userEmail: userEmail ?? this.userEmail,
     );
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => throw UnimplementedError();
 }

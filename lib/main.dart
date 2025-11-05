@@ -3,10 +3,12 @@ import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:kanban_assignment/presentation/bloc/app_bloc_observer.dart';
 
 import 'app.dart';
+import 'core/di/injection_container.dart';
 import 'core/helpers/firebase_helper.dart';
 import 'core/routes/app_router.dart';
 import 'data/models/task_model.dart';
@@ -16,7 +18,7 @@ void main() async {
 
   FirebaseHelper.initializeFirebase();
 
-  // await init();
+  await init();
 
   await Hive.initFlutter();
   Hive.registerAdapter(TaskModelAdapter());
@@ -30,19 +32,22 @@ void main() async {
     HttpOverrides.global = CustomHttpOverrides();
   }
 
+  Bloc.observer = AppBlocObserver();
+
   runApp(
-    ProviderScope(
-      // observers: [Logger()],
-      child: EasyLocalization(
-        supportedLocales: [
-          Locale('en', 'US'),
-          Locale('hi', 'IN'),
-        ],
-        path: 'assets/translations',
-        fallbackLocale: Locale('en', 'US'),
-        child: const MainApp(),
-      ),
+    // ProviderScope(
+    //   // observers: [Logger()],
+    //   child:
+    EasyLocalization(
+      supportedLocales: [
+        Locale('en', 'US'),
+        Locale('hi', 'IN'),
+      ],
+      path: 'assets/translations',
+      fallbackLocale: Locale('en', 'US'),
+      child: const MainApp(),
     ),
+    // ),
   );
 }
 

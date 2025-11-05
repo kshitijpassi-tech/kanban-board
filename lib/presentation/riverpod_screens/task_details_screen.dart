@@ -1,24 +1,24 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:kanban_assignment/core/constants/context_extensions.dart';
 
-import '../../core/constants/context_extensions.dart';
-import '../../core/helpers/firebase_helper.dart';
 import '../../core/l10n/locale_keys.g.dart';
 import '../../domain/entities/task_entity.dart';
-import '../bloc/tasks/task_bloc.dart';
+import '../providers/presentation_providers.dart';
 import '../widgets/app_button.dart';
 import '../widgets/app_text_field.dart';
 
-class TaskDetailsScreen extends StatefulWidget {
+class TaskDetailScreen extends ConsumerStatefulWidget {
   final TaskEntity task;
-  const TaskDetailsScreen({super.key, required this.task});
+  const TaskDetailScreen({super.key, required this.task});
+
   @override
-  State<TaskDetailsScreen> createState() => _TaskDetailsScreenState();
+  ConsumerState<TaskDetailScreen> createState() => _TaskDetailScreenState();
 }
 
-class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
+class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
   late TextEditingController _titleCtrl;
   late TextEditingController _descCtrl;
   String _status = 'todo';
@@ -31,11 +31,23 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
     _status = widget.task.status;
   }
 
-  @override
-  void dispose() {
-    _titleCtrl.dispose();
-    _descCtrl.dispose();
-    super.dispose();
+  void _updateTask() async {
+    final updated = widget.task.copyWith(
+      title: _titleCtrl.text,
+      description: _descCtrl.text,
+      status: _status,
+    );
+    await ref
+        .read(kanbanStateNotifierProvider.notifier)
+        .moveTask(updated, _status);
+    if (mounted) GoRouter.of(context).pop();
+  }
+
+  void _deleteTask() async {
+    await ref
+        .read(kanbanStateNotifierProvider.notifier)
+        .removeTask(widget.task);
+    if (mounted) GoRouter.of(context).pop();
   }
 
   @override
@@ -114,21 +126,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                   const SizedBox(height: 24),
                   AppButton(
                     text: LocaleKeys.updateTask.tr(),
-                    onPressed: () {
-                      context.read<TaskBloc>().add(
-                        UpdateExistingTask(
-                          FirebaseHelper().currentUserId ?? '',
-                          widget.task.copyWith(
-                            title: _titleCtrl.text,
-                            description: _descCtrl.text,
-                            status: _status,
-                          ),
-                          _status,
-                        ),
-                      );
-
-                      if (mounted) context.pop();
-                    },
+                    onPressed: _updateTask,
                   ),
                   const SizedBox(height: 12),
                   AppButton(
@@ -143,13 +141,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                           )
                           .then((confirmed) {
                             if (confirmed == true) {
-                              context.read<TaskBloc>().add(
-                                DeleteExistingTask(
-                                  FirebaseHelper().currentUserId ?? '',
-                                  widget.task.id,
-                                ),
-                              );
-                              if (mounted) context.pop();
+                              _deleteTask();
                             }
                           });
                     },

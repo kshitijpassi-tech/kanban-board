@@ -8,7 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:kanban_assignment/core/constants/routes_constants.dart';
 import 'package:kanban_assignment/core/l10n/locale_keys.g.dart';
 import 'package:kanban_assignment/presentation/providers/presentation_providers.dart';
-import 'package:kanban_assignment/presentation/screens/login_screen.dart';
+import 'package:kanban_assignment/presentation/riverpod_screens/login_screen.dart';
 import 'package:kanban_assignment/presentation/states/auth_state_notifier.dart';
 import 'package:kanban_assignment/presentation/widgets/app_button.dart';
 import 'package:kanban_assignment/presentation/widgets/app_text_field.dart';

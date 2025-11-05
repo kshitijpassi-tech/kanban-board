@@ -1,10 +1,12 @@
-class TaskEntity {
+import 'package:equatable/equatable.dart';
+
+class TaskEntity extends Equatable {
   final String id;
   final String title;
   final String description;
   final String status;
 
-  TaskEntity({
+  const TaskEntity({
     required this.id,
     required this.title,
     required this.description,
@@ -23,5 +25,14 @@ class TaskEntity {
       description: description ?? this.description,
       status: status ?? this.status,
     );
+  }
+
+  @override
+  List<Object?> get props => [id, title, description, status];
+
+  // Optional: Add these for better debugging
+  @override
+  String toString() {
+    return 'TaskEntity(id: $id, title: $title, status: $status)';
   }
 }

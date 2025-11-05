@@ -53,7 +53,7 @@ class AppRouter {
     GoRoute(
       name: Routes.loginScreen,
       path: Routes.loginScreen,
-      builder: (context, state) => const LoginScreen(),
+      builder: (context, state) => LoginScreen(),
     ),
     GoRoute(
       name: Routes.registerScreen,
@@ -69,7 +69,7 @@ class AppRouter {
       name: Routes.taskDetailsScreen,
       path: Routes.taskDetailsScreen,
       builder: (context, state) =>
-          TaskDetailScreen(task: state.extra as TaskEntity),
+          TaskDetailsScreen(task: state.extra as TaskEntity),
     ),
   ];
 }
