@@ -1,6 +1,6 @@
+import '../../domain/entities/user_entity.dart';
 import '../../domain/repositories/auth_repo.dart';
 import '../data_sources/remote_data_sources/auth_data_source.dart';
-import '../models/user_model.dart';
 
 class AuthRepoImpl implements AuthRepository {
   final AuthDataSource _authDataSource;
@@ -8,7 +8,7 @@ class AuthRepoImpl implements AuthRepository {
   AuthRepoImpl(this._authDataSource);
 
   @override
-  Future<UserModel?> getCurrentUser() => _authDataSource.getCurrentUser();
+  Future<UserEntity?> getCurrentUser() => _authDataSource.getCurrentUser();
 
   @override
   Future<bool> isLoggedIn() => _authDataSource.isSignedIn();

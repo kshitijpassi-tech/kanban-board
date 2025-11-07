@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:hooks_riverpod/legacy.dart';
 
-import '../../data/models/user_model.dart';
 import '../../domain/entities/task_entity.dart';
+import '../../domain/entities/user_entity.dart';
 import '../states/auth_state_notifier.dart';
 import '../states/kanban_state_notifier.dart';
 import 'auth_providers.dart';
@@ -29,7 +29,7 @@ final kanbanStateNotifierProvider =
 
 // Auth State Notifier Provider
 final authStateNotifierProvider =
-    StateNotifierProvider<AuthStateNotifier, AsyncValue<UserModel?>>((ref) {
+    StateNotifierProvider<AuthStateNotifier, AsyncValue<UserEntity?>>((ref) {
       final getCurrentUser = ref.read(getCurrentUserProvider);
       final isLoggedIn = ref.read(isLoggedInProvider);
       final loginUser = ref.read(loginUserProvider);

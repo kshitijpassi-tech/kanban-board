@@ -6,21 +6,14 @@ import '../../domain/entities/task_entity.dart';
 part 'task_model.g.dart';
 
 @HiveType(typeId: 0)
-class TaskModel extends TaskEntity {
+class TaskModel extends HiveObject {
   @HiveField(0)
-  @override
   final String id;
-
   @HiveField(1)
-  @override
   final String title;
-
   @HiveField(2)
-  @override
   final String description;
-
   @HiveField(3)
-  @override
   final String status;
 
   TaskModel({
@@ -28,7 +21,7 @@ class TaskModel extends TaskEntity {
     required this.title,
     required this.description,
     required this.status,
-  }) : super(id: id, title: title, description: description, status: status);
+  });
 
   factory TaskModel.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
